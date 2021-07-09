@@ -40,22 +40,24 @@ def main():
 
         text = f"{machine_}"
         # text = f"{machine_} ({dirname_})"
-        id_ = open(f'{machines_dir}/{machine_}/virtualbox/id', 'r', encoding='utf-8').read()
+        idfname_ = f'{machines_dir}/{machine_}/virtualbox/id'
+        if os.path.exists(idfname_):
+            id_ = open(f'{machines_dir}/{machine_}/virtualbox/id', 'r', encoding='utf-8').read()
 
-        image = Image.new('RGB', (192, 192), color = bg_color)
-        draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf", 56, encoding='unic')
+            image = Image.new('RGB', (192, 192), color = bg_color)
+            draw = ImageDraw.Draw(image)
+            font = ImageFont.truetype("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf", 56, encoding='unic')
 
-        margin = offset = 10
-        for line in textwrap.wrap(text, width=7):
-            draw.text((margin, offset), line, font=font, fill=fg_color)
-            offset += font.getsize(line)[1]
+            margin = offset = 10
+            for line in textwrap.wrap(text, width=7):
+                draw.text((margin, offset), line, font=font, fill=fg_color)
+                offset += font.getsize(line)[1]
 
-        imgname =  f".image-{machine_}.png"   
-        image.save(imgname)
-        scmd = f'VBoxManage modifyvm  "{id_}" --iconfile {imgname} '
-        print(scmd)
-        os.system(scmd)
+            imgname =  f".image-{machine_}.png"   
+            image.save(imgname)
+            scmd = f'VBoxManage modifyvm  "{id_}" --iconfile {imgname} '
+            print(scmd)
+            os.system(scmd)
 
 if __name__ == '__main__':
     main()
